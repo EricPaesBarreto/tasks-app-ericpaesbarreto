@@ -7,6 +7,14 @@ on:
 jobs:
     run_tests:
         runs-on: ubunt-latest
+
+        # required for bandit security check to run
+        permissions:
+            # required for all workflows
+            security-events: write
+            # only required for workflows in private repositories
+            actions: read
+
         strategy:
             matrix:
                 service: [title-normalizer , tasks-api]
@@ -16,7 +24,8 @@ jobs:
               uses: actions/checkout@v6
 
             - name: install dependencies
-              run: python -m pip install -r services/${{matrix.service}}/tests/requirements.txt
+              run: python -m pip install -r services/${{matrix.service}}/tests/requirements.txt &&
+                  python -m pip install bandit --target services/${{matrix.service}}/tests/requirements.txt
 
             - name: check python version
               run: python --version
@@ -24,31 +33,11 @@ jobs:
             - name: run tests
               run: pytest -rA services/${{matrix.service}}| tee ${{matrix.service}}-test-report.txt
 
-    check-security:
-        runs-on: ubuntu-latest
-
-        # required for bandit security check to run
-        permissions:
-            # required for all workflows
-            security-events: write
-            # only required for workflows in private repositories
-            actions: read
-        
-        steps:
-            - name: checkout code
-              uses: actions/checkout@v6
-            
-            - name: install dependencies
-              run: python -m pip install bandit
-
-            - name: check python version
-              run: python --version
-            
             - name: check bandit version
               run: python -m bandit --version
 
-            - name: performa bandit analysis
+            - name: perform a bandit analysis
               uses: PyCQA/bandit-action@v1
 
             - name: run bandit
-              run: python -m bandit -r .
+              run: python -m bandit -r . -o services/${{matrix.service}}-bandit-report.txt
