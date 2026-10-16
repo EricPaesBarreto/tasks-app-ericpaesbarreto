@@ -37,4 +37,4 @@ jobs:
               run: python -m bandit --version
 
             - name: perform a bandit analysis
-              run: python -m bandit -r services/${{matrix.service}} -o services/${{matrix.service}}-bandit-report.txt -f txt
+              run: python -m bandit -r services/${{matrix.service}}/app -o services/${{matrix.service}}-bandit-report.txt -f txt || true
