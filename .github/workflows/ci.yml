@@ -1,0 +1,79 @@
+name: app_services_test
+
+on:
+    push:
+        # change to pull_request before final version 
+
+jobs:
+    tests-title-normalizer:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+            
+            - name: change directory
+              run: cd services/title-normalizer/tests
+
+            - name: set up python
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.12'
+                run: python -m pip install --requirements.txt
+
+            - name: check python version
+              run: python --version
+
+            - name: run tests
+              run: pytest
+
+    tests-app:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v6
+
+            - name: change directory
+              run: cd services/tasks-api/tests
+            
+            - name: set up python
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.12'
+                run: python -m pip install --requirements.txt
+
+            - name: check python version
+              run: python --version
+            
+            - name: run tests
+              run: pytest
+
+    check-security:
+        runs-on: ubuntu-latest
+
+        # required for bandit security check to run
+        permissions:
+            # required for all workflows
+            security-events: write
+            # only required for workflows in private repositories
+            actions: read
+        
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v6
+            
+            - name: set up python
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.12'
+                run: python -m pip install --requirements.txt &&
+                    python -m pip install bandit
+
+            - name: check python version
+              run: python --version && 
+                python -m pip bandit --version
+
+            - name: performa bandit analysis
+              uses: PyCQA/bandit-action@v1
+
+            - name: run bandit
+              run: bandit -r .
