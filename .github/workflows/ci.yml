@@ -25,7 +25,7 @@ jobs:
               run: python --version
 
             - name: run tests
-              run: pytest | tee ${{matrix.service}}-test-report.txt
+              run: pytest -rA services/${{matrix.service}}| tee ${{matrix.service}}-test-report.txt
 
     check-security:
         runs-on: ubuntu-latest
@@ -45,12 +45,13 @@ jobs:
               uses: actions/setup-python@v4
               with:
                 python-version: '3.12'
-                run: python -m pip install --requirements.txt &&
-                    python -m pip install bandit
+                run: python -m pip install bandit
 
             - name: check python version
-              run: python --version && 
-                python -m bandit --version
+              run: python --version
+            
+            - name: check bandit version
+              run: python -m bandit --version
 
             - name: performa bandit analysis
               uses: PyCQA/bandit-action@v1
