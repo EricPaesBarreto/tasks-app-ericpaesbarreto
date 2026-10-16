@@ -24,7 +24,7 @@ jobs:
               uses: actions/checkout@v6
 
             - name: install dependencies
-              run: python -m pip install -r services/${{matrix.service}}/tests/requirements.txt &&
+              run: python -m pip install -r services/${{matrix.service}}/requirements.txt &&
                   python -m pip install bandit
 
             - name: check python version
