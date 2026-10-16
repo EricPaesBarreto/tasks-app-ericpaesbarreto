@@ -25,7 +25,7 @@ jobs:
               run: python --version
 
             - name: run tests
-              run: pytest
+              run: pytest | tee ${{matrix.service}}-test-report.txt
 
     check-security:
         runs-on: ubuntu-latest
@@ -50,10 +50,10 @@ jobs:
 
             - name: check python version
               run: python --version && 
-                python -m pip bandit --version
+                python -m bandit --version
 
             - name: performa bandit analysis
               uses: PyCQA/bandit-action@v1
 
             - name: run bandit
-              run: bandit -r .
+              run: python -m bandit -r .
