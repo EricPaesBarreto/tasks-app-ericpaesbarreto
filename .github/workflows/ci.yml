@@ -19,7 +19,7 @@ jobs:
               uses: actions/setup-python@v4
               with:
                 python-version: '3.12'
-                run: python -m pip install -r requirements.txt --target d: services/${{jobs.run_tests.service }}/tests
+                run: python -m pip install -r requirements.txt --target d: services/${{matrix.service}}/tests
 
             - name: check python version
               run: python --version
