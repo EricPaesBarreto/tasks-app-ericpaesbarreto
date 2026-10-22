@@ -79,10 +79,10 @@ jobs:
           name: title-normalizer-3.12-bandit-report
           path: mv _site/title-normalizer-3.12-bandit-report.txt _site/index.html
 
-      - run: ls _site
       - uses: actions/upload-pages-artifact@v5
         with:
-          path: _site/
+          path: _site
 
-      - uses: actions/deploy-pages@v5 # outputs page_url
-        id: deployment
+      - id: deployment
+        uses: actions/deploy-pages@v5
+        
