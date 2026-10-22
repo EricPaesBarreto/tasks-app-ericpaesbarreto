@@ -71,7 +71,7 @@ jobs:
       steps:
       - uses: actions/download-artifact@v7
         with:
-          name: tasks-api-3.12-bandit report
+          name: tasks-api-3.12-bandit-report
           path: mv _site/tasks-api-3.12-bandit-report.txt _site/index.html
 
       - run: ls _site
