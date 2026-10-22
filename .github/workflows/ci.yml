@@ -37,7 +37,7 @@ jobs:
               run: python -m pip install -r services/${{matrix.service}}/requirements.txt
 
             - name: run tests
-              run: pytest -rA services/${{matrix.service}} > ${{matrix.service}}-${{matarix.python-version}}-test-report.txt
+              run: pytest -rA services/${{matrix.service}} > ${{matrix.service}}-${{matrix.python-version}}-test-report.txt
 
             - name: install bandit
               run: python -m pip install bandit
@@ -78,6 +78,6 @@ jobs:
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site/
-          
+
       - uses: actions/deploy-pages@v5 # outputs page_url
         id: deployment
