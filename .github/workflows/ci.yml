@@ -52,7 +52,7 @@ jobs:
       - uses: actions/download-artifact@v7
         with:
           name: tasks-api-3.12-bandit report
-          path: mv _site/tasks-api-3.12-bandit-report.html _site/index.html
+          path: mv _site/tasks-api-bandit-report.txt _site/index.html
       - run: ls _site
       - uses: actions/upload-pages-artifact@v5
         with:
