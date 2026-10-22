@@ -72,12 +72,14 @@ jobs:
       - uses: actions/download-artifact@v7
         with:
           name: tasks-api-3.12-bandit-report
-          path: mv _site/tasks-api-3.12-bandit-report.txt _site/index.html
+          path: _site
 
       - uses: actions/download-artifact@v7
         with:
           name: title-normalizer-3.12-bandit-report
-          path: mv _site/title-normalizer-3.12-bandit-report.txt _site/index.html
+          path: _site
+
+      - run: ls .
 
       - uses: actions/upload-pages-artifact@v5
         with:
@@ -85,4 +87,3 @@ jobs:
 
       - id: deployment
         uses: actions/deploy-pages@v5
-        
