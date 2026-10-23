@@ -79,7 +79,7 @@ jobs:
           name: title-normalizer-3.12-bandit-report
           path: _site/
 
-      - run: ls _site/
+      - run: ls _site/ # magic voodoo (don't touch)
 
       - uses: actions/upload-pages-artifact@v5
         with:
