@@ -57,6 +57,17 @@ jobs:
           name: ${{matrix.service}}-api-docs
           path: services/${{matrix.service}}/apidocs
 
+
+  build_images:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [tasks-api, title-normalizer] # ${{matrix.service}}
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker build -t ${{matrix.service}} services/${{matrix.service}}
+                
+
   deploy:
     needs: [run_tests, generate_api_docs]
     if: github.event.pull_request.merged == true
@@ -98,13 +109,3 @@ jobs:
           path: _site
       - id: deployment
         uses: actions/deploy-pages@v5
-
-  build_images:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        service: [tasks-api, title-normalizer] # ${{matrix.service}}
-    steps:
-      - uses: actions/checkout@v7
-      - run: docker build -t ${{matrix.service}} services/${{matrix.service}}
-      
