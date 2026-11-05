@@ -1,0 +1,15 @@
+services:
+  tasks-api:
+    build: services/tasks-api/
+    container_name: tasks-api
+    ports: 
+      - "5000:5000"
+    environment: 
+      NORMALIZER_URL= http://localhost:5001 
+    
+
+  title-normalizer:
+    build: services/title-normalizer
+    container_name: title-normalizer
+    port's: 
+      - "5001:5001"
