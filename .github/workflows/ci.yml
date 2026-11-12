@@ -90,6 +90,17 @@ jobs:
             -t "$IMAGE" services/${{matrix.service}}
           docker push "$IMAGE"
 
+  scan_images:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        service: [tasks-api, title-normalizer]
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker build -t ${{matrix.service}} services/${{matrix.service}}
+
   deploy:
     needs: [run_tests, generate_api_docs]
     if: github.event.pull_request.merged == true
